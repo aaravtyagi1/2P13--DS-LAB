@@ -1,0 +1,310 @@
+// Develop a Menu driven program to demonstrate the following operations of Arrays 
+//——MENU——- 
+//1.CREATE 
+//2. DISPLAY 
+//3. INSERT 
+//4. DELETE 
+//5. LINEAR SEARCH 
+//6. EXIT 
+
+#include <iostream>
+using namespace std;
+
+#define MAX 100
+
+int arr[MAX];
+int n = 0; // Current size of array
+
+// Function to create array
+void createArray() {
+    cout << "Enter number of elements: ";
+    cin >> n;
+    if (n > MAX) {
+        cout << "Max limit exceeded!" << endl;
+        n = 0;
+        return;
+    }
+    cout << "Enter " << n << " elements: ";
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    cout << "Array created successfully!" << endl;
+}
+
+// Function to display array
+void displayArray() {
+    if (n == 0) {
+        cout << "Array is empty!" << endl;
+        return;
+    }
+    cout << "Array elements: ";
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+}
+
+// Function to insert element
+void insertElement() {
+    if (n >= MAX) {
+        cout << "Array is full, cannot insert!" << endl;
+        return;
+    }
+    int pos, value;
+    cout << "Enter position to insert (1 to " << n + 1 << "): ";
+    cin >> pos;
+    if (pos < 1 || pos > n + 1) {
+        cout << "Invalid position!" << endl;
+        return;
+    }
+    cout << "Enter value to insert: ";
+    cin >> value;
+
+    for (int i = n; i >= pos; i--) {
+        arr[i] = arr[i - 1];
+    }
+    arr[pos - 1] = value;
+    n++;
+    cout << "Element inserted successfully!" << endl;
+}
+
+// Function to delete element
+void deleteElement() {
+    if (n == 0) {
+        cout << "Array is empty, nothing to delete!" << endl;
+        return;
+    }
+    int pos;
+    cout << "Enter position to delete (1 to " << n << "): ";
+    cin >> pos;
+    if (pos < 1 || pos > n) {
+        cout << "Invalid position!" << endl;
+        return;
+    }
+    for (int i = pos - 1; i < n - 1; i++) {
+        arr[i] = arr[i + 1];
+    }
+    n--;
+    cout << "Element deleted successfully!" << endl;
+}
+
+// Function for linear search
+void linearSearch() {
+    if (n == 0) {
+        cout << "Array is empty!" << endl;
+        return;
+    }
+    int key;
+    cout << "Enter element to search: ";
+    cin >> key;
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == key) {
+            cout << "Element found at position " << i + 1 << endl;
+            return;
+        }
+    }
+    cout << "Element not found!" << endl;
+}
+
+int main() {
+    int choice;
+    do {
+        cout << "\n---- MENU ----" << endl;
+        cout << "1. CREATE" << endl;
+        cout << "2. DISPLAY" << endl;
+        cout << "3. INSERT" << endl;
+        cout << "4. DELETE" << endl;
+        cout << "5. LINEAR SEARCH" << endl;
+        cout << "6. EXIT" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+        case 1:
+            createArray();
+            break;
+        case 2:
+            displayArray();
+            break;
+        case 3:
+            insertElement();
+            break;
+        case 4:
+            deleteElement();
+            break;
+        case 5:
+            linearSearch();
+            break;
+        case 6:
+            cout << "Exiting program..." << endl;
+            break;
+        default:
+            cout << "Invalid choice! Please try again." << endl;
+        }
+    } while (choice != 6);
+
+    return 0;
+}
+
+
+// Design the logic to remove the duplicate elements from an Array and after the 
+//deletion the array should contain the unique elements
+
+#include <iostream>
+using namespace std;
+
+int main() {
+    int arr[100], n;
+    cout << "Enter size: ";
+    cin >> n;
+    cout << "Enter elements: ";
+    for (int i = 0; i < n; i++) cin >> arr[i];
+
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; ) {
+            if (arr[i] == arr[j]) {
+                for (int k = j; k < n - 1; k++) arr[k] = arr[k + 1];
+                n--;
+            } else j++;
+        }
+    }
+
+    cout << "Array without duplicates: ";
+    for (int i = 0; i < n; i++) cout << arr[i] << " ";
+}
+
+
+ //Predict the Output of the following program  
+#include<iostream>
+using namespace std;
+int main() 
+{ 
+    int i; 
+    int arr[5] = {1}; 
+    for (i = 0; i < 5; i++) 
+        printf("%d", arr[i]); 
+    return 0; 
+} 
+
+//output:- 1000
+
+//Implement the logic to 
+//a. Reverse the elements of an array
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Enter size: ";
+    cin >> n;
+    int arr[n];
+    cout << "Enter elements: ";
+    for (int i = 0; i < n; i++) cin >> arr[i];
+
+    for (int i = 0; i < n / 2; i++) {
+        int temp = arr[i];
+        arr[i] = arr[n - i - 1];
+        arr[n - i - 1] = temp;
+    }
+
+    cout << "Reversed array: ";
+    for (int i = 0; i < n; i++) cout << arr[i] << " ";
+}
+
+//b. Find the matrix multiplication 
+#include <iostream>
+using namespace std;
+
+int main() {
+    int r1, c1, r2, c2;
+    cout << "Enter rows & cols of first matrix: ";
+    cin >> r1 >> c1;
+    cout << "Enter rows & cols of second matrix: ";
+    cin >> r2 >> c2;
+
+    if (c1 != r2) {
+        cout << "Multiplication not possible!";
+        return 0;
+    }
+
+    int a[r1][c1], b[r2][c2], res[r1][c2] = {0};
+
+    cout << "Enter first matrix:\n";
+    for (int i = 0; i < r1; i++)
+        for (int j = 0; j < c1; j++)
+            cin >> a[i][j];
+
+    cout << "Enter second matrix:\n";
+    for (int i = 0; i < r2; i++)
+        for (int j = 0; j < c2; j++)
+            cin >> b[i][j];
+
+    for (int i = 0; i < r1; i++) {
+        for (int j = 0; j < c2; j++) {
+            for (int k = 0; k < c1; k++) {
+                res[i][j] += a[i][k] * b[k][j];
+            }
+        }
+    }
+
+    cout << "Result:\n";
+    for (int i = 0; i < r1; i++) {
+        for (int j = 0; j < c2; j++) cout << res[i][j] << " ";
+        cout << endl;
+    }
+}
+
+//c. Find the Transpose of a Matrix 
+#include <iostream>
+using namespace std;
+
+int main() {
+    int r, c;
+    cout << "Enter rows & cols: ";
+    cin >> r >> c;
+    int mat[r][c];
+    cout << "Enter matrix:\n";
+    for (int i = 0; i < r; i++)
+        for (int j = 0; j < c; j++)
+            cin >> mat[i][j];
+
+    cout << "Transpose:\n";
+    for (int i = 0; i < c; i++) {
+        for (int j = 0; j < r; j++)
+            cout << mat[j][i] << " ";
+        cout << endl;
+    }
+}
+
+
+// Write a program to find sum of every row and every column in a two-dimensional 
+//array. 
+#include <iostream>
+using namespace std;
+
+int main() {
+    int r, c;
+    cout << "Enter rows & cols: ";
+    cin >> r >> c;
+    int mat[r][c];
+    cout << "Enter matrix:\n";
+    for (int i = 0; i < r; i++)
+        for (int j = 0; j < c; j++)
+            cin >> mat[i][j];
+
+    // Row sums
+    for (int i = 0; i < r; i++) {
+        int sum = 0;
+        for (int j = 0; j < c; j++) sum += mat[i][j];
+        cout << "Sum of row " << i+1 << ": " << sum << endl;
+    }
+
+    // Column sums
+    for (int j = 0; j < c; j++) {
+        int sum = 0;
+        for (int i = 0; i < r; i++) sum += mat[i][j];
+        cout << "Sum of column " << j+1 << ": " << sum << endl;
+    }
+}
+
+
