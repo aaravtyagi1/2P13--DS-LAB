@@ -1,0 +1,245 @@
+/ Develop a menu driven program demonstrating the following operations on a Stack using array:
+// (i) push()
+// (ii) pop()
+// (iii) isEmpty()
+// (iv) isFull()
+// (v) display()
+// (vi) peek().
+#include <iostream>
+using namespace std;
+int stack[100], n = 100, top = -1;
+void push(int val) {
+    if (top >= n - 1) {
+        cout << "Stack Overflow" << endl;
+    } else {
+        top++;
+        stack[top] = val;
+        cout << val << " pushed to stack" << endl;
+    }
+}
+void pop() {
+    if (top < 0) {
+        cout << "Stack Underflow" << endl;
+    } else {
+        cout << stack[top] << " popped from stack" << endl;
+        top--;
+    }
+}
+bool isEmpty() {
+    return top < 0;
+}
+bool isFull() {
+    return top >= n - 1;
+}
+void display() {
+    if (top < 0) {
+        cout << "Stack is empty" << endl;
+    } else {
+        cout << "Stack elements: ";
+        for (int i = top; i >= 0; i--) {
+            cout << stack[i] << " ";
+        }
+        cout << endl;
+    }
+}
+int peek() {
+    if (top < 0) {
+        cout << "Stack is empty" << endl;
+        return -1;
+    } else {
+        return stack[top];
+    }
+}
+int main() {
+    int choice, val;
+    cout << "Menu:\n1. Push\n2. Pop\n3. Is Empty\n4. Is Full\n5. Display\n6. Peek\n7. Exit" << endl;
+    do {
+        cout << "Enter your choice: ";
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                cout << "Enter value to push: ";
+                cin >> val;
+                push(val);
+                break;
+            case 2:
+                pop();
+                break;
+            case 3:
+                if (isEmpty()) {
+                    cout << "Stack is empty" << endl;
+                } else {
+                    cout << "Stack is not empty" << endl;
+                }
+                break;
+            case 4:
+                if (isFull()) {
+                    cout << "Stack is full" << endl;
+                } else {
+                    cout << "Stack is not full" << endl;
+                }
+                break;
+            case 5:
+                display();
+                break;
+            case 6:
+                val = peek();
+                if (val != -1) {
+                    cout << "Top element is: " << val << endl;
+                }
+                break;
+            case 7:
+                cout << "Exiting..." << endl;
+                break;
+            default:
+                cout << "Invalid choice" << endl;
+        }
+    } while (choice != 7);
+    return 0;
+}
+
+
+// Given a string, reverse it using STACK. For example “DataStructure” should be output as “erutcurtSataD.”
+#include <iostream>
+#include <stack>            
+#include <string>
+using namespace std;
+
+string reverseStringUsingStack(const string& str) {
+    stack<char> charStack;
+    for (char ch : str) {
+        charStack.push(ch);
+    }
+    string reversedStr;
+    while (!charStack.empty()) {
+        reversedStr += charStack.top();
+        charStack.pop();
+    }
+    return reversedStr;
+}
+
+int main() {
+    string inputStr;
+    cout << "Enter a string to reverse: ";
+    getline(cin, inputStr);
+    string reversedStr = reverseStringUsingStack(inputStr);
+    cout << "Reversed string: " << reversedStr << endl;
+    return 0;
+}
+
+// Write a program that checks if an expression has balanced parentheses
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+bool areParenthesesBalanced(const string& expr) {
+    stack<char> s;
+    for (char ch : expr) {
+        if (ch == '(' || ch == '{' || ch == '[') {
+            s.push(ch);
+        } else if (ch == ')' || ch == '}' || ch == ']') {
+            if (s.empty()) return false;
+            char top = s.top();
+            s.pop();
+            if ((ch == ')' && top != '(') ||
+                (ch == '}' && top != '{') ||
+                (ch == ']' && top != '[')) {
+                return false;
+            }
+        }
+    }
+    return s.empty();
+}
+int main() {
+    string expr;
+    cout << "Enter an expression: ";
+    getline(cin, expr);
+    if (areParenthesesBalanced(expr)) {
+        cout << "The expression has balanced parentheses." << endl;
+    } else {
+        cout << "The expression does not have balanced parentheses." << endl;
+    }
+    return 0;
+}
+
+// Write a program to convert an Infix expression into a Postfix expression
+#include <iostream>
+#include <stack>
+#include <string>
+#include <cctype>
+using namespace std;
+int precedence(char op) {
+    if (op == '+' || op == '-') return 1;
+    if (op == '*' || op == '/') return 2;
+    if (op == '^') return 3;
+    return 0;
+}
+string infixToPostfix(const string& infix) {
+    stack<char> s;
+    string postfix;
+    for (char ch : infix) {
+        if (isalnum(ch)) {
+            postfix += ch;
+        } else if (ch == '(') {
+            s.push(ch);
+        } else if (ch == ')') {
+            while (!s.empty() && s.top() != '(') {
+                postfix += s.top();
+                s.pop();
+            }
+            s.pop(); // Pop '('
+        } else {
+            while (!s.empty() && precedence(s.top()) >= precedence(ch)) {
+                postfix += s.top();
+                s.pop();
+            }
+            s.push(ch);
+        }
+    }
+    while (!s.empty()) {
+        postfix += s.top();
+        s.pop();
+    }
+    return postfix;
+}
+int main() {
+    string infix;
+    cout << "Enter an infix expression: ";
+    getline(cin, infix);
+    string postfix = infixToPostfix(infix);
+    cout << "Postfix expression: " << postfix << endl;
+    return 0;
+}
+
+// Write a program for the evaluation of a Postfix expression.
+#include <iostream>
+#include <stack>
+#include <string>
+#include <cctype>
+using namespace std;
+int evaluatePostfix(const string& postfix) {
+    stack<int> s;
+    for (char ch : postfix) {
+        if (isdigit(ch)) {
+            s.push(ch - '0'); // Convert char to int
+        } else {
+            int val2 = s.top(); s.pop();
+            int val1 = s.top(); s.pop();
+            switch (ch) {
+                case '+': s.push(val1 + val2); break;
+                case '-': s.push(val1 - val2); break;
+                case '*': s.push(val1 * val2); break;
+                case '/': s.push(val1 / val2); break;
+            }
+        }
+    }
+    return s.top();
+}
+int main() {
+    string postfix;
+    cout << "Enter a postfix expression (single-digit operands only): ";
+    getline(cin, postfix);
+    int result = evaluatePostfix(postfix);
+    cout << "The result of the postfix expression is: " << result << endl;
+    return 0;
+}
